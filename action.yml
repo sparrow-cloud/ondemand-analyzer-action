@@ -15,6 +15,11 @@ inputs:
   vcs_auth_token:
     description: "Token for Access private repository"
     required: false
+  push-readme:
+    description: 'Whether to update and push analysis result to README.md'
+    required: false
+    default: 'false'
+
 outputs:
   result_summary:
     value: ${{ steps.run-analysis-script.outputs.result_summary }}
@@ -37,4 +42,10 @@ runs:
     - name: Run analysis script
       id: run-analysis-script
       shell: bash
-      run: bash "${{ github.action_path }}/entrypoint.sh" --api-key "${{ inputs.ondemand_api_key }}" --repo-url "${{ inputs.repo_url }}" --repo-branch "${{ inputs.branch }}" --vcs-auth-token "${{ inputs.vcs_auth_token }}"
+      run: |
+        bash "${{ github.action_path }}/entrypoint.sh" \
+          --api-key "${{ inputs.api-key }}" \
+          --repo-url "${{ inputs.repo-url }}" \
+          --repo-branch "${{ inputs.repo-branch }}" \
+          --vcs-auth-token "${{ inputs.vcs-auth-token }}" \
+          ${{ inputs.push-readme == 'true' && '--push-readme' || '' }}
