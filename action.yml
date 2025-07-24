@@ -1,0 +1,40 @@
+name: "Analyze Repository"
+description: "Analyze a cloned GitHub repository via external API and update the README with results"
+author: "Minwoo"
+
+inputs:
+  ondemand_api_key:
+    description: "Sparrow On-Demand generated API key"
+    required: true
+  repo_url:
+    description: "GitHub repository URL to analyze"
+    required: true
+  branch:
+    description: "Branch name to checkout"
+    required: false
+  vcs_auth_token:
+    description: "Token for Access private repository"
+    required: false
+outputs:
+  result_summary:
+    value: ${{ steps.run-analysis-script.outputs.result_summary }}
+    description: "Analysis result JSON string"
+  report_path:
+    value: ${{ steps.run-analysis-script.outputs.report_path }}
+    description: "Analysis Markdown report file path"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check Input values
+      shell: bash
+      run: |
+        echo ondemand_api_key: ${{ inputs.ondemand_api_key }} \
+        echo repo_url: ${{ inputs.repo_url }} \
+        echo branch: ${{ inputs.branch }} \
+        echo vcs_auth_token: ${{ inputs.vcs_auth_token }} \
+
+    - name: Run analysis script
+      id: run-analysis-script
+      shell: bash
+      run: bash "${{ github.action_path }}/entrypoint.sh" --api-key "${{ inputs.ondemand_api_key }}" --repo-url "${{ inputs.repo_url }}" --repo-branch "${{ inputs.branch }}" --vcs-auth-token "${{ inputs.vcs_auth_token }}"
