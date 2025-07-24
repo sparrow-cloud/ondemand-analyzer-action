@@ -140,6 +140,20 @@ echo "|------|------|----------|---------|---------|---------|" >> "$REPORT_MD"
 jq -r '"| \(.issueCount) | \(.issueCountRisk1) | \(.issueCountRisk2) | \(.issueCountRisk3) | \(.issueCountRisk4) | \(.issueCountRisk5) |"' ./result/summary.json >> "$REPORT_MD"
 echo "[INFO] RESULT.md written at $REPORT_MD"
 
+# README.md 업데이트 및 커밋
+if [ -f README.md ]; then
+  echo "[INFO] Updating README.md..."
+  echo -e "\n\n## 🔍 Latest Analysis\n" >> README.md
+  cat "$REPORT_MD" >> README.md
+  git config --global user.name "github-actions"
+  git config --global user.email "github-actions@github.com"
+  git add README.md
+  git commit -m "chore: update README with latest analysis summary" || echo "[INFO] Nothing to commit"
+  git push || echo "[WARNING] Failed to push changes"
+else
+  echo "[WARNING] README.md not found in repository"
+fi
+
 echo "SUMMARY_JSON=$SUMMARY_JSON"
 echo "REPORT_MD=$REPORT_MD"
 
