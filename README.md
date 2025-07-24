@@ -6,9 +6,9 @@ This GitHub Action analyzes a target GitHub repository via external API and upda
 
 | Name         | Required | Description                          |
 |--------------|----------|--------------------------------------|
-| `ondemand_api_key`| ❌       | Local directory (default: `target-repo`) |
+| `ondemand_api_key`| ✅       | Sparrow On-Demand generated API-KEY |
 | `repo_url`   | ✅       | URL of the repository to analyze     |
-| `branch`     | ✅       | Branch to checkout                   |
+| `branch`     | ❌       | Branch to checkout                   |
 | `vcs_auth_token`| ❌       | Local directory (default: `target-repo`) |
 
 ## 📤 Outputs
