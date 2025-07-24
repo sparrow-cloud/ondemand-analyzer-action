@@ -44,7 +44,7 @@ runs:
       shell: bash
       run: |
         bash "${{ github.action_path }}/entrypoint.sh" \
-          --ondemand_api_key "${{ inputs.ondemand_api_key }}" \
+          --api-key "${{ inputs.ondemand_api_key }}" \
           --repo-url "${{ inputs.repo_url }}" \
           --branch "${{ inputs.branch }}" \
           --vcs-auth-token "${{ inputs.vcs_auth_token }}" \
